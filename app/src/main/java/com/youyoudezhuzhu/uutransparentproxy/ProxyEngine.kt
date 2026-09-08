@@ -110,6 +110,13 @@ object ProxyEngine {
         }
         pushLocalLog("热点接口 detectHotspot=$hotspot  WAN=$wan")
 
+        // 预检上游代理可达性（连 6.6.6.6:8088，3s 超时）
+        val reachable = probeUpstream(cfg.upstreamHost, cfg.upstreamPort)
+        pushLocalLog(
+            if (reachable) "上游代理 ${cfg.upstreamHost}:${cfg.upstreamPort} 可达 ✓"
+            else "⚠ 上游代理 ${cfg.upstreamHost}:${cfg.upstreamPort} 不可达 ✗ (请确认 UU 已开加速; 若仍不可达可能需把 6.6.6.6 加到 lo)"
+        )
+
         // 启动 Native 代理
         val rc = native.startProxy(
             cfg.upstreamHost, cfg.upstreamPort, cfg.protocol,
@@ -209,6 +216,18 @@ object ProxyEngine {
         val t = statsThread
         statsThread = null
         t?.interrupt()
+    }
+
+    /** 用普通 socket 探测上游代理是否可达（本机出网连 6.6.6.6:8088）。 */
+    private fun probeUpstream(host: String, port: Int): Boolean {
+        return try {
+            val s = java.net.Socket()
+            s.connect(java.net.InetSocketAddress(host, port), 3000)
+            s.close()
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 
     /** 重启时接入应用自身日志入口。 */

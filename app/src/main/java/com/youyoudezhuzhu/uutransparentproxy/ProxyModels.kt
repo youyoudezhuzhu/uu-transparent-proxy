@@ -4,8 +4,8 @@ package com.youyoudezhuzhu.uutransparentproxy
 data class ProxyConfig(
     val upstreamHost: String = "6.6.6.6",
     val upstreamPort: Int = 8088,
-    /** 0=SOCKS5，1=HTTP CONNECT */
-    val protocol: Int = 0,
+    /** 0=SOCKS5，1=HTTP CONNECT（Switch/主机默认 HTTP，对齐 UU 代理） */
+    val protocol: Int = 1,
     val tcpPort: Int = 23333,
     val udpPort: Int = 23334,
     val udpEnabled: Boolean = true,

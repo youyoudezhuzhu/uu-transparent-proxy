@@ -50,6 +50,10 @@ class ProxyForegroundService : Service() {
         scope.launch {
             ProxyEngine.state.collect { st -> updateNotification(st) }
         }
+        // 流式捕获 native(标签 uuproxy) 与 app(标签 UUProxy) 日志，推入 UI 面板
+        LogcatHelper.start(arrayOf("uuproxy", "UUProxy")) { line ->
+            ProxyEngine.pushLocalLog(line)
+        }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
