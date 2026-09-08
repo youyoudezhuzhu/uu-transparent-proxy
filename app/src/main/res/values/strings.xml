@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">UU 透明代理</string>
+    <string name="title">UU 热点透明代理网关</string>
+    <string name="subtitle">Root · iptables · 协议转换守护进程</string>
+
+    <string name="status_running">加速中</string>
+    <string name="status_stopped">未启动</string>
+    <string name="label_devices">连接设备</string>
+    <string name="label_rx">下行 ↓</string>
+    <string name="label_tx">上行 ↑</string>
+    <string name="label_total">累计流量</string>
+
+    <string name="btn_start">启用加速</string>
+    <string name="btn_reset">重置网络</string>
+    <string name="btn_detect">重新探测</string>
+    <string name="btn_clear_log">清空</string>
+
+    <string name="section_status">运行状态</string>
+    <string name="section_controls">控制与配置</string>
+    <string name="section_config_upstream">上游代理 (UU)</string>
+    <string name="section_log">运行日志 (Logcat)</string>
+
+    <string name="hint_upstream_host">上游地址</string>
+    <string name="hint_upstream_port">端口</string>
+    <string name="label_protocol">转发协议</string>
+    <string name="proto_socks5">SOCKS5</string>
+    <string name="proto_http">HTTP CONNECT</string>
+    <string name="label_udp">UDP 转发 (TPROXY)</string>
+    <string name="hint_hotspot">热点接口</string>
+    <string name="hint_wan">WAN 接口</string>
+    <string name="status_hint_default">等待探测接口…</string>
+</resources>

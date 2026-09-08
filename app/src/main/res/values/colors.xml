@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 状态色 -->
+    <color name="status_on">#2E7D32</color>
+    <color name="status_off">#757575</color>
+    <color name="status_running_bg">#E8F5E9</color>
+
+    <!-- MD3 基础色板 -->
+    <color name="md_primary">#1E88E5</color>
+    <color name="md_on_primary">#FFFFFF</color>
+    <color name="md_primary_container">#D6E9FF</color>
+    <color name="md_surface">#FAFAFA</color>
+    <color name="md_on_surface">#1C1B1F</color>
+    <color name="md_surface_variant">#E7E0EC</color>
+    <color name="md_outline">#79747E</color>
+
+    <!-- Launcher 背景 -->
+    <color name="ic_launcher_background">#1E88E5</color>
+</resources>
