@@ -5,8 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
-import android.widget.AutoCompleteTextView
-import android.widget.RadioButton
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.youyoudezhuzhu.uutransparentproxy.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
 
@@ -58,10 +58,10 @@ class MainActivity : AppCompatActivity() {
         val list = IptablesManager.listInterfaces()
         val detectedH = IptablesManager.detectHotspotInterface().orEmpty()
         val detectedW = IptablesManager.detectWanInterface().orEmpty()
-        (binding.etHotspot.editText as? AutoCompleteTextView)
-            ?.setSimpleItems((list + detectedH).toTypedArray())
-        (binding.etWan.editText as? AutoCompleteTextView)
-            ?.setSimpleItems((list + detectedW).toTypedArray())
+        val hAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, (list + detectedH).toTypedArray())
+        val wAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, (list + detectedW).toTypedArray())
+        (binding.etHotspot.editText as? MaterialAutoCompleteTextView)?.setAdapter(hAdapter)
+        (binding.etWan.editText as? MaterialAutoCompleteTextView)?.setAdapter(wAdapter)
         binding.etHotspot.editText?.setText(detectedH)
         binding.etWan.editText?.setText(detectedW)
         binding.statusHint.text = "自动探测 → 热点: $detectedH  |  WAN: $detectedW"

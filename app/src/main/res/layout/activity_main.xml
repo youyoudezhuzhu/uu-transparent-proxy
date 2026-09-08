@@ -273,7 +273,7 @@
                         android:layout_weight="1"
                         android:hint="@string/hint_hotspot">
 
-                        <AutoCompleteTextView
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"
@@ -292,7 +292,7 @@
                         android:layout_weight="1"
                         android:hint="@string/hint_wan">
 
-                        <AutoCompleteTextView
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"

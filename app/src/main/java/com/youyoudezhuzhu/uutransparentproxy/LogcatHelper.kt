@@ -28,9 +28,9 @@ object LogcatHelper {
             Thread {
                 try {
                     val reader = BufferedReader(InputStreamReader(p.inputStream))
-                    var line: String?
-                    while (p.isAlive && reader.readLine().also { line = it } != null) {
-                        onLine(line!!)
+                    while (p.isAlive) {
+                        val line = reader.readLine() ?: break
+                        onLine(line)
                     }
                 } catch (_: Exception) { }
             }.apply { isDaemon = true; name = "uuproxy-logcat"; start() }
