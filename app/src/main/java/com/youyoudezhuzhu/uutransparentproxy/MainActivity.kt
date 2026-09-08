@@ -1,10 +1,15 @@
 package com.youyoudezhuzhu.uutransparentproxy
 
 import android.Manifest
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -51,7 +56,27 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupLogView() {
         binding.logView.movementMethod = ScrollingMovementMethod()
+        // 允许长按选中复制
+        binding.logView.textIsSelectable = true
         binding.btnClearLog.setOnClickListener { ProxyEngine.clearLog() }
+        binding.btnCopyLog.setOnClickListener { copyLog() }
+        binding.btnShareLog.setOnClickListener { shareLog() }
+    }
+
+    private fun copyLog() {
+        val text = ProxyEngine.localLog().joinToString("\n")
+        val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        cm.setPrimaryClip(ClipData.newPlainText("uuproxy-log", text))
+        Toast.makeText(this, "日志已复制，可直接粘贴发送", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun shareLog() {
+        val text = ProxyEngine.localLog().joinToString("\n")
+        val i = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, text)
+        }
+        startActivity(Intent.createChooser(i, "分享日志"))
     }
 
     private fun setupInterfaces() {
@@ -123,6 +148,13 @@ class MainActivity : AppCompatActivity() {
         binding.tvTx.text = "%s/s".format(fmtRate(st.txRate))
         binding.tvTotal.text = "累计 ↓%s  ↑%s".format(fmtBytes(st.rxBytes), fmtBytes(st.txBytes))
         if (st.message.isNotBlank()) binding.statusHint.text = st.message
+
+        // 错误提示（红字醒目显示）
+        val err = st.message.contains("失败") || st.message.contains("未获取") ||
+                st.message.contains("✗") || st.message.contains("不可达") ||
+                st.message.contains("无法") || st.message.contains("异常")
+        binding.tvError.visibility = if (err) View.VISIBLE else View.GONE
+        binding.tvError.text = st.message
 
         // 日志
         val log = st.logLines.joinToString("\n")

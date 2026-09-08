@@ -16,19 +16,26 @@ data class ShellResult(val exitCode: Int, val output: String) {
  */
 object RootShell {
 
-    /** 检查是否拿到 root。 */
+    /** 检查是否拿到 root。带 3s 超时，避免 su 弹窗等待卡死。 */
     fun hasRoot(): Boolean {
-        return try {
-            val p = Runtime.getRuntime().exec(arrayOf("su", "-c", "id"))
-            p.outputStream.close()
-            val out = p.inputStream.bufferedReader().readText()
-            val err = p.errorStream.bufferedReader().readText()
-            p.waitFor()
-            // 出现 "uid=0(root)" 即 root 可用
-            (out + err).contains("uid=0(root)")
-        } catch (e: Exception) {
-            false
+        var result = false
+        val t = Thread {
+            try {
+                val p = Runtime.getRuntime().exec(arrayOf("su", "-c", "id"))
+                p.outputStream.close()
+                val out = p.inputStream.bufferedReader().readText()
+                val err = p.errorStream.bufferedReader().readText()
+                p.waitFor()
+                // 出现 "uid=0(root)" 即 root 可用
+                result = (out + err).contains("uid=0(root)")
+            } catch (e: Exception) {
+                result = false
+            }
         }
+        t.isDaemon = true
+        t.start()
+        t.join(3000)  // 最多等 3 秒
+        return result
     }
 
     /**

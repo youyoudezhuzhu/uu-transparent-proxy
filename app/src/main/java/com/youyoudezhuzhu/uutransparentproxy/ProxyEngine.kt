@@ -94,8 +94,13 @@ object ProxyEngine {
         if (running) { pushLocalLog("已在运行，忽略重复启动"); return }
 
         if (!RootShell.hasRoot()) {
-            _state.value = _state.value.copy(rootGranted = false, message = "未获取到 Root(su)，无法启动")
-            pushLocalLog("Root 校验失败")
+            _state.value = _state.value.copy(
+                rootGranted = false,
+                message = "启动失败：未获取到 Root(su)"
+            )
+            pushLocalLog("✗ 未获取到 root(su)，启动失败")
+            pushLocalLog("  请确认：手机已 root；在 Magisk/SuperSU 里允许本 app 的 su 请求；")
+            pushLocalLog("  若是临时 root，重启后需重新运行 root 工具才生效。")
             return
         }
         _state.value = _state.value.copy(rootGranted = true, message = "Root OK")
