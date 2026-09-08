@@ -56,8 +56,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupLogView() {
         binding.logView.movementMethod = ScrollingMovementMethod()
-        // 允许长按选中复制
-        binding.logView.isTextSelectable = true
+        // 允许长按选中复制（在布局已设 android:textIsSelectable="true"）
         binding.btnClearLog.setOnClickListener { ProxyEngine.clearLog() }
         binding.btnCopyLog.setOnClickListener { copyLog() }
         binding.btnShareLog.setOnClickListener { shareLog() }

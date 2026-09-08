@@ -390,6 +390,7 @@
                     android:fontFamily="monospace"
                     android:padding="8dp"
                     android:scrollbars="vertical"
+                    android:textIsSelectable="true"
                     android:textSize="11sp"
                     android:typeface="monospace" />
             </LinearLayout>
